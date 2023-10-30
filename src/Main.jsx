@@ -1,12 +1,26 @@
+import { useState } from "react"
 import memeData from "./memeData"
 
+
 export default function Main(){
+const [meme, setMeme] = useState({
+  topText: "",
+  bottomText: "",
+  randomImage: "https://i.imgflip.com/1g8my4.jpg"
+})
+const [allMemeImages, setAllMemeimages] = useState(memeData)
+
     function getMemes(){
-        const memeArr = memeData.data.memes
-        const randomNum = Math.floor(Math.random() * memeArr.length)
-        const url = memeArr[randomNum].url
-        console.log(url)
+       const memeArray = allMemeImages.data.memes
+       const randomNumber = Math.floor(Math.random() * memeArray.length)
+       const url = memeArray[randomNumber].url
+       setMeme(prevMeme=>({
+        ...prevMeme,
+        randomImage: url
+       }))
+        
     }
+
     return(
     <div className="w-1/2 m-auto">
       <div className="flex justify-between mb-4">
@@ -18,6 +32,12 @@ export default function Main(){
       onClick={getMemes}
       >Get a new meme image 🖼</button>
     </div>
+    <div className="w-100% flex justify-center mt-10">
+        <img src={meme.randomImage}
+         alt={meme.randomImage} 
+         className="w-100%" />
+    </div>
+    
   </div>
     )
 }
