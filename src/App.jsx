@@ -4,7 +4,7 @@ import Main from "./Main"
 
 export default function App(){
     return(
-        <div>
+        <div  className="bg-[url('/funny.jpg')] bg-fixed h-full bg-cover">
             <Header />
             <Main />
 
