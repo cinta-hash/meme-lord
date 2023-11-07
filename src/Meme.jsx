@@ -1,5 +1,5 @@
-import { useState } from "react"
-import memeData from "./memeData"
+import { useEffect, useState } from "react"
+
 
 
 export default function Main(){
@@ -8,12 +8,17 @@ const [meme, setMeme] = useState({
   bottomText: "",
   randomImage: "https://i.imgflip.com/1g8my4.jpg"
 })
-const [allMemeImages, setAllMemeimages] = useState(memeData)
+const [allMemes, setAllMemes] = useState([])
+
+    useEffect(()=>{
+      fetch("https://api.imgflip.com/get_memes")
+      .then(res=>res.json())
+      .then(memeData => setAllMemes(memeData.data.memes))
+    }, [])
 
     function getMemes(){
-       const memeArray = allMemeImages.data.memes
-       const randomNumber = Math.floor(Math.random() * memeArray.length)
-       const url = memeArray[randomNumber].url
+       const randomNumber = Math.floor(Math.random() * allMemes.length)
+       const url = allMemes[randomNumber].url
        setMeme(prevMeme=>({
         ...prevMeme,
         randomImage: url
@@ -56,8 +61,8 @@ const [allMemeImages, setAllMemeimages] = useState(memeData)
         <img src={meme.randomImage}
          alt={meme.randomImage} 
          className="w-100%" />
-         <h1 className="absolute top-0 mt-4 text-center text-gray-500 font-bold uppercase text-4xl drop-shadow-xl">{meme.topText}</h1>
-         <h2 className="fixed bottom-0  mb-4 text-center text-gray-500 font-bold uppercase text-4xl drop-shadow-xl">{meme.bottomText}</h2>
+         <h1 className="absolute w-4/5 text-center left-1/2 transform -translate-x-1/2 my-3 px-1 top-0 text-2xl uppercase text-white tracking-wide font-bold">{meme.topText}</h1>
+         <h2 className="absolute w-4/5 text-center left-1/2 transform -translate-x-1/2 my-3 px-1 bottom-0 text-2xl uppercase text-white tracking-wide font-bold">{meme.bottomText}</h2>
          
     </div>
     
